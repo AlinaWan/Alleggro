@@ -15,8 +15,8 @@ public static class ChickenPopulationCalculator
             int internalHatcheryRate,
             int internalHatcheryCalmLevel,
             int habitats,
-            Artifact? dilithiumMonocle = null,
-            IReadOnlyList<EggfinityStone>? dilithiumStones = null)
+            DilithiumMonocle? dilithiumMonocle = null,
+            IReadOnlyList<DilithiumStone>? dilithiumStones = null)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(
             internalHatcheryRate);
@@ -37,12 +37,12 @@ public static class ChickenPopulationCalculator
                 "Habitats must be between 1 and 4.");
         }
 
-        dilithiumStones ??= Array.Empty<EggfinityStone>();
+        dilithiumStones ??= Array.Empty<DilithiumStone>();
 
         Boost[] eligibleBoosts = Items.Boosts.All
             .Where(static boost =>
-                boost.Type is BoostType.BoostBeacon
-                    or BoostType.TachyonPrism)
+                boost is BoostBeacon
+                    or TachyonPrism)
             .ToArray();
 
         double baseRate =
@@ -57,11 +57,11 @@ public static class ChickenPopulationCalculator
             foreach (IReadOnlyList<Boost> combination
                 in GenerateCombinations(eligibleBoosts, slots))
             {
-                int totalCost = 0;
+                long totalCost = 0;
 
                 foreach (Boost boost in combination)
                 {
-                    totalCost = checked(totalCost + boost.Cost.Value);
+                    totalCost = checked(totalCost + (boost.Cost ?? 0));
                 }
 
                 long chickenPopulation = CalculatePopulation(
@@ -85,8 +85,8 @@ public static class ChickenPopulationCalculator
         int internalHatcheryCalmLevel,
         int habitats,
         long targetPopulation,
-        Artifact? dilithiumMonocle = null,
-        IReadOnlyList<EggfinityStone>? dilithiumStones = null)
+        DilithiumMonocle? dilithiumMonocle = null,
+        IReadOnlyList<DilithiumStone>? dilithiumStones = null)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(targetPopulation);
 
@@ -140,8 +140,8 @@ public static class ChickenPopulationCalculator
     private static long CalculatePopulation(
         IReadOnlyList<Boost> combination,
         double baseRate,
-        Artifact? dilithiumMonocle,
-        IReadOnlyList<EggfinityStone> dilithiumStones)
+        DilithiumMonocle? dilithiumMonocle,
+        IReadOnlyList<DilithiumStone> dilithiumStones)
     {
         if (combination.Count == 0 || baseRate == 0)
         {
@@ -152,9 +152,17 @@ public static class ChickenPopulationCalculator
             GetDurationMultiplier(dilithiumStones);
 
         TimeSpan[] expirationTimes = combination
-            .Select(boost => TimeSpan.FromTicks(
+            .Select(boost => boost switch
+            {
+                TachyonPrism prism => prism.Duration,
+                BoostBeacon beacon => beacon.Duration,
+                _ => throw new ArgumentException(
+                    $"Boost type '{boost.GetType().Name}' does not have a duration.",
+                    nameof(combination))
+            })
+            .Select(duration => TimeSpan.FromTicks(
                 checked((long)Math.Truncate(
-                    boost.Duration.Ticks * durationMultiplier))))
+                    duration.Ticks * durationMultiplier))))
             .Distinct()
             .Order()
             .ToArray();
@@ -186,7 +194,7 @@ public static class ChickenPopulationCalculator
         IReadOnlyList<Boost> combination,
         TimeSpan elapsed,
         double durationMultiplier,
-        Artifact? dilithiumMonocle)
+        DilithiumMonocle? dilithiumMonocle)
     {
         double multiplier = 1;
         double dilithiumMonocleMultiplier =
@@ -194,20 +202,23 @@ public static class ChickenPopulationCalculator
                 ? 1 + (double)dilithiumMonocle.Effect
                 : 1;
 
-        foreach (IGrouping<BoostType, Boost> group in combination
-            .Where(boost =>
-                boost.Duration.Ticks * durationMultiplier > elapsed.Ticks)
-            .GroupBy(static boost => boost.Type))
-        {
-            double typeMultiplier = group.Sum(
-                static boost => boost.Multiplier);
-
-            if (group.Key is BoostType.BirdFeed
-                or BoostType.TachyonPrism
-                or BoostType.SoulBeacon)
+        foreach (IGrouping<Type, Boost> group in combination
+            .Where(boost => boost switch
             {
-                typeMultiplier *= dilithiumMonocleMultiplier;
-            }
+                TachyonPrism prism =>
+                    prism.Duration.Ticks * durationMultiplier > elapsed.Ticks,
+                BoostBeacon beacon =>
+                    beacon.Duration.Ticks * durationMultiplier > elapsed.Ticks,
+                _ => false
+            })
+            .GroupBy(static boost => boost.GetType()))
+        {
+            double typeMultiplier = group.Sum(boost => boost switch
+            {
+                TachyonPrism prism => prism.Multiplier * dilithiumMonocleMultiplier,
+                BoostBeacon beacon => beacon.Multiplier,
+                _ => 0
+            });
 
             multiplier *= typeMultiplier;
         }
@@ -216,19 +227,12 @@ public static class ChickenPopulationCalculator
     }
 
     private static double GetDurationMultiplier(
-        IReadOnlyList<EggfinityStone> dilithiumStones)
+        IReadOnlyList<DilithiumStone> dilithiumStones)
     {
         double increase = 0;
 
-        foreach (EggfinityStone stone in dilithiumStones)
+        foreach (DilithiumStone stone in dilithiumStones)
         {
-            if (stone.Type != EggfinityStoneType.DilithiumStone)
-            {
-                throw new ArgumentException(
-                    "All Eggfinity Stones must be Dilithium Stones.",
-                    nameof(dilithiumStones));
-            }
-
             if (stone.Increase is not decimal stoneIncrease)
             {
                 throw new ArgumentException(

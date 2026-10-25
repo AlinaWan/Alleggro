@@ -5,108 +5,99 @@ namespace Alleggro.Items;
 public static class Artifacts
 {
     // Aurelian Brooch
-    public static Artifact PlainAurelianBroochCommon
+    public static AurelianBrooch PlainAurelianBroochCommon
     {
         get;
     } = new(
         name: "Plain Aurelian Brooch",
-        type: ArtifactType.AurelianBrooch,
         tier: ArtifactTier.Tier1,
         rarity: ArtifactRarity.Common,
         effect: 0.10m,
         sockets: 0
     );
 
-    public static Artifact AurelianBroochCommon
+    public static AurelianBrooch AurelianBroochCommon
     {
         get;
     } = new(
         name: "Aurelian Brooch",
-        type: ArtifactType.AurelianBrooch,
         tier: ArtifactTier.Tier2,
         rarity: ArtifactRarity.Common,
         effect: 0.25m,
         sockets: 0
     );
 
-    public static Artifact JeweledAurelianBroochCommon
+    public static AurelianBrooch JeweledAurelianBroochCommon
     {
         get;
     } = new(
         name: "Jeweled Aurelian Brooch",
-        type: ArtifactType.AurelianBrooch,
         tier: ArtifactTier.Tier3,
         rarity: ArtifactRarity.Common,
         effect: 0.50m,
         sockets: 0
     );
 
-    public static Artifact JeweledAurelianBroochRare
+    public static AurelianBrooch JeweledAurelianBroochRare
     {
         get;
     } = new(
         name: "Jeweled Aurelian Brooch",
-        type: ArtifactType.AurelianBrooch,
         tier: ArtifactTier.Tier3,
         rarity: ArtifactRarity.Rare,
         effect: 0.60m,
         sockets: 1
     );
 
-    public static Artifact JeweledAurelianBroochEpic
+    public static AurelianBrooch JeweledAurelianBroochEpic
     {
         get;
     } = new(
         name: "Jeweled Aurelian Brooch",
-        type: ArtifactType.AurelianBrooch,
         tier: ArtifactTier.Tier3,
         rarity: ArtifactRarity.Epic,
         effect: 0.70m,
         sockets: 2
     );
 
-    public static Artifact EggceptionalAurelianBroochCommon
+    public static AurelianBrooch EggceptionalAurelianBroochCommon
     {
         get;
     } = new(
         name: "Eggceptional Aurelian Brooch",
-        type: ArtifactType.AurelianBrooch,
         tier: ArtifactTier.Tier4,
         rarity: ArtifactRarity.Common,
         effect: 1.0m,
         sockets: 0
     );
 
-    public static Artifact EggceptionalAurelianBroochRare
+    public static AurelianBrooch EggceptionalAurelianBroochRare
     {
         get;
     } = new(
         name: "Eggceptional Aurelian Brooch",
-        type: ArtifactType.AurelianBrooch,
         tier: ArtifactTier.Tier4,
         rarity: ArtifactRarity.Rare,
         effect: 1.25m,
         sockets: 1
     );
 
-    public static Artifact EggceptionalAurelianBroochEpic
+    public static AurelianBrooch EggceptionalAurelianBroochEpic
     {
         get;
     } = new(
         name: "Eggceptional Aurelian Brooch",
-        type: ArtifactType.AurelianBrooch,
         tier: ArtifactTier.Tier4,
         rarity: ArtifactRarity.Epic,
         effect: 1.50m,
         sockets: 2
     );
 
-    public static Artifact EggceptionalAurelianBroochLegendary
+    public static AurelianBrooch EggceptionalAurelianBroochLegendary
     {
         get;
     } = new(
         name: "Eggceptional Aurelian Brooch",
-        type: ArtifactType.AurelianBrooch,
         tier: ArtifactTier.Tier4,
         rarity: ArtifactRarity.Legendary,
         effect: 2.0m,
@@ -114,72 +105,66 @@ public static class Artifacts
     );
 
     // Dilithium Monocle
-    public static Artifact DilithiumMonocleCommon
+    public static DilithiumMonocle DilithiumMonocleCommon
     {
         get;
     } = new(
         name: "Dilithium Monocle",
-        type: ArtifactType.DilithiumMonocle,
         tier: ArtifactTier.Tier1,
         rarity: ArtifactRarity.Common,
         effect: 0.05m,
         sockets: 0
     );
 
-    public static Artifact PreciseDilithiumMonocleCommon
+    public static DilithiumMonocle PreciseDilithiumMonocleCommon
     {
         get;
     } = new(
         name: "Precise Dilithium Monocle",
-        type: ArtifactType.DilithiumMonocle,
         tier: ArtifactTier.Tier2,
         rarity: ArtifactRarity.Common,
         effect: 0.10m,
         sockets: 0
     );
 
-    public static Artifact EggsactingDilithiumMonocleCommon
+    public static DilithiumMonocle EggsactingDilithiumMonocleCommon
     {
         get;
     } = new(
         name: "Eggsacting Dilithium Monocle",
-        type: ArtifactType.DilithiumMonocle,
         tier: ArtifactTier.Tier3,
         rarity: ArtifactRarity.Common,
         effect: 0.15m,
         sockets: 0
     );
 
-    public static Artifact FlawlessDilithiumMonocleCommon
+    public static DilithiumMonocle FlawlessDilithiumMonocleCommon
     {
         get;
     } = new(
         name: "Flawless Dilithium Monocle",
-        type: ArtifactType.DilithiumMonocle,
         tier: ArtifactTier.Tier4,
         rarity: ArtifactRarity.Common,
         effect: 0.20m,
         sockets: 0
     );
 
-    public static Artifact FlawlessDilithiumMonocleEpic
+    public static DilithiumMonocle FlawlessDilithiumMonocleEpic
     {
         get;
     } = new(
         name: "Flawless Dilithium Monocle",
-        type: ArtifactType.DilithiumMonocle,
         tier: ArtifactTier.Tier4,
         rarity: ArtifactRarity.Epic,
         effect: 0.25m,
         sockets: 2
     );
 
-    public static Artifact FlawlessDilithiumMonocleLegendary
+    public static DilithiumMonocle FlawlessDilithiumMonocleLegendary
     {
         get;
     } = new(
         name: "Flawless Dilithium Monocle",
-        type: ArtifactType.DilithiumMonocle,
         tier: ArtifactTier.Tier4,
         rarity: ArtifactRarity.Legendary,
         effect: 0.30m,
@@ -190,7 +175,7 @@ public static class Artifacts
     {
         get;
     } =
-        Array.AsReadOnly(
+        Array.AsReadOnly<Artifact>(
         [
             PlainAurelianBroochCommon,
                 AurelianBroochCommon,

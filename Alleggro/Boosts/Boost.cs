@@ -2,52 +2,43 @@
 
 namespace Alleggro.Boosts;
 
-public sealed class Boost
+public abstract class Boost
 {
     public string Name
     {
         get;
     }
-
-    public BoostType Type
+    public GoldenEggs? Cost
     {
         get;
     }
 
-    public double Multiplier
+    public SoulEggs SoulEggsRequirement
     {
         get;
     }
 
-    public TimeSpan Duration
+    public BoostTokens? BoostTokensCost
     {
         get;
     }
 
-    public GoldenEggs Cost
-    {
-        get;
-    }
-
-    internal Boost(
+    protected Boost(
         string name,
-        BoostType type,
-        double multiplier,
-        TimeSpan duration,
-        GoldenEggs cost)
+        GoldenEggs? cost,
+        SoulEggs soulEggsRequirement,
+        BoostTokens? boostTokensCost)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
 
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(multiplier);
-
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(duration.Ticks);
-
-        ArgumentOutOfRangeException.ThrowIfNegative(cost.Value);
+        if (cost.HasValue)
+        {
+            ArgumentOutOfRangeException.ThrowIfNegative(cost.Value.Value);
+        }
 
         Name = name;
-        Type = type;
-        Multiplier = multiplier;
-        Duration = duration;
         Cost = cost;
+        SoulEggsRequirement = soulEggsRequirement;
+        BoostTokensCost = boostTokensCost;
     }
 }

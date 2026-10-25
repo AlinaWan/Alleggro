@@ -1,13 +1,8 @@
 ﻿namespace Alleggro.EggfinityStones;
 
-public sealed class EggfinityStone
+public abstract class EggfinityStone
 {
     public string Name
-    {
-        get;
-    }
-
-    public EggfinityStoneType Type
     {
         get;
     }
@@ -17,15 +12,13 @@ public sealed class EggfinityStone
         get;
     }
 
-    internal EggfinityStone(
+    protected EggfinityStone(
         string name,
-        EggfinityStoneType type,
         decimal? increase)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
 
         Name = name;
-        Type = type;
         Increase = increase;
     }
 }

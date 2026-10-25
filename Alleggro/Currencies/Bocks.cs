@@ -1,11 +1,13 @@
-﻿namespace Alleggro.Currencies;
+﻿using System.Numerics;
 
-public readonly record struct Bocks(int Value)
+namespace Alleggro.Currencies;
+
+public readonly record struct Bocks(BigInteger Value)
 {
-    public static implicit operator int(Bocks amount) =>
+    public static implicit operator BigInteger(Bocks amount) =>
         amount.Value;
 
-    public static implicit operator Bocks(int value) =>
+    public static implicit operator Bocks(BigInteger value) =>
         new(value);
 
     public override string ToString() =>

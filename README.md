@@ -12,11 +12,11 @@ using Alleggro.Items;
 GoldenEggs cost = Items.Boosts.SupremeTachyonPrism.Cost;
 // 25000
 
-EggfinityStoneType type = Items.EggfinityStones.EggsquisiteDilithiumStone.Type;
-// DilithiumStone
+decimal increase = Items.EggfinityStones.EggsquisiteDilithiumStone.Increase;
+// 0.06m
 
-decimal effect = Items.Artifacts.DilithiumMonocleCommon.Effect;
-// 0.05m
+int sockets = Items.Artifacts.EggceptionalAurelianBroochEpic.Sockets;
+// 2
 ```
 
 ### Querying & Filtering Items
@@ -27,8 +27,8 @@ using Alleggro.Items;
 
 Boost[] eligibleBoosts = Items.Boosts.All
     .Where(static boost =>
-        boost.Type is BoostType.BoostBeacon
-            or BoostType.TachyonPrism)
+        boost is BoostBeacon
+            or TachyonPrism)
     .ToArray();
 ```
 
