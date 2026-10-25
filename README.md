@@ -12,8 +12,11 @@ using Alleggro.Items;
 GoldenEggs cost = Items.Boosts.SupremeTachyonPrism.Cost;
 // 25000
 
-double multiplier = Items.Boosts.SupremeTachyonPrism.Multiplier;
-// 1000
+EggfinityStoneType type = Items.EggfinityStones.EggsquisiteDilithiumStone.Type;
+// DilithiumStone
+
+decimal effect = Items.Artifacts.DilithiumMonocleCommon.Effect;
+// 0.05m
 ```
 
 ### Querying & Filtering Items

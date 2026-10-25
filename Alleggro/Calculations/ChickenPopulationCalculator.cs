@@ -1,5 +1,7 @@
-﻿using Alleggro.Currencies;
+﻿using Alleggro.Artifacts;
 using Alleggro.Boosts;
+using Alleggro.Currencies;
+using Alleggro.EggfinityStones;
 using Alleggro.Items;
 
 namespace Alleggro.Calculations;
@@ -12,7 +14,9 @@ public static class ChickenPopulationCalculator
         GetChickenPopulation(
             int internalHatcheryRate,
             int internalHatcheryCalmLevel,
-            int habitats)
+            int habitats,
+            Artifact? dilithiumMonocle = null,
+            IReadOnlyList<EggfinityStone>? dilithiumStones = null)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(
             internalHatcheryRate);
@@ -32,6 +36,8 @@ public static class ChickenPopulationCalculator
                 habitats,
                 "Habitats must be between 1 and 4.");
         }
+
+        dilithiumStones ??= Array.Empty<EggfinityStone>();
 
         Boost[] eligibleBoosts = Items.Boosts.All
             .Where(static boost =>
@@ -60,7 +66,9 @@ public static class ChickenPopulationCalculator
 
                 long chickenPopulation = CalculatePopulation(
                     combination,
-                    baseRate);
+                    baseRate,
+                    dilithiumMonocle,
+                    dilithiumStones);
 
                 results.Add(new ChickenPopulationResult(
                     combination,
@@ -76,14 +84,18 @@ public static class ChickenPopulationCalculator
         int internalHatcheryRate,
         int internalHatcheryCalmLevel,
         int habitats,
-        long targetPopulation)
+        long targetPopulation,
+        Artifact? dilithiumMonocle = null,
+        IReadOnlyList<EggfinityStone>? dilithiumStones = null)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(targetPopulation);
 
         return GetChickenPopulation(
                 internalHatcheryRate,
                 internalHatcheryCalmLevel,
-                habitats)
+                habitats,
+                dilithiumMonocle,
+                dilithiumStones)
             .Where(result => result.ChickenPopulation >= targetPopulation)
             .ToList()
             .AsReadOnly();
@@ -127,15 +139,22 @@ public static class ChickenPopulationCalculator
     //       I think it's already included in the internalHatcheryRate so this might not be needed to be taken into account here, but I will need to verify that.
     private static long CalculatePopulation(
         IReadOnlyList<Boost> combination,
-        double baseRate)
+        double baseRate,
+        Artifact? dilithiumMonocle,
+        IReadOnlyList<EggfinityStone> dilithiumStones)
     {
         if (combination.Count == 0 || baseRate == 0)
         {
             return 0;
         }
 
+        double durationMultiplier =
+            GetDurationMultiplier(dilithiumStones);
+
         TimeSpan[] expirationTimes = combination
-            .Select(static boost => boost.Duration)
+            .Select(boost => TimeSpan.FromTicks(
+                checked((long)Math.Truncate(
+                    boost.Duration.Ticks * durationMultiplier))))
             .Distinct()
             .Order()
             .ToArray();
@@ -150,7 +169,9 @@ public static class ChickenPopulationCalculator
 
             double multiplier = GetMultiplier(
                 combination,
-                intervalStart);
+                intervalStart,
+                durationMultiplier,
+                dilithiumMonocle);
 
             totalChickens +=
                 baseRate * multiplier * intervalMinutes;
@@ -161,24 +182,63 @@ public static class ChickenPopulationCalculator
         return checked((long)Math.Truncate(totalChickens));
     }
 
-    // TODO: Implement calculation accounting for the effect of Artifacts and Eggfinity Stones on the multiplier (e.g., Dilithium Monocle, Dilithium Stone).
     private static double GetMultiplier(
         IReadOnlyList<Boost> combination,
-        TimeSpan elapsed)
+        TimeSpan elapsed,
+        double durationMultiplier,
+        Artifact? dilithiumMonocle)
     {
         double multiplier = 1;
+        double dilithiumMonocleMultiplier =
+            dilithiumMonocle is not null
+                ? 1 + (double)dilithiumMonocle.Effect
+                : 1;
 
-        foreach (IGrouping<BoostType, Boost> group
-            in combination
-                .Where(boost => boost.Duration > elapsed)
-                .GroupBy(static boost => boost.Type))
+        foreach (IGrouping<BoostType, Boost> group in combination
+            .Where(boost =>
+                boost.Duration.Ticks * durationMultiplier > elapsed.Ticks)
+            .GroupBy(static boost => boost.Type))
         {
             double typeMultiplier = group.Sum(
                 static boost => boost.Multiplier);
+
+            if (group.Key is BoostType.BirdFeed
+                or BoostType.TachyonPrism
+                or BoostType.SoulBeacon)
+            {
+                typeMultiplier *= dilithiumMonocleMultiplier;
+            }
 
             multiplier *= typeMultiplier;
         }
 
         return multiplier;
+    }
+
+    private static double GetDurationMultiplier(
+        IReadOnlyList<EggfinityStone> dilithiumStones)
+    {
+        double increase = 0;
+
+        foreach (EggfinityStone stone in dilithiumStones)
+        {
+            if (stone.Type != EggfinityStoneType.DilithiumStone)
+            {
+                throw new ArgumentException(
+                    "All Eggfinity Stones must be Dilithium Stones.",
+                    nameof(dilithiumStones));
+            }
+
+            if (stone.Increase is not decimal stoneIncrease)
+            {
+                throw new ArgumentException(
+                    "Eggfinity Stones must have a defined increase.",
+                    nameof(dilithiumStones));
+            }
+
+            increase += (double)stoneIncrease;
+        }
+
+        return 1 + increase;
     }
 }

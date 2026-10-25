@@ -12,13 +12,20 @@ public sealed class EggfinityStone
         get;
     }
 
+    public decimal? Increase
+    {
+        get;
+    }
+
     internal EggfinityStone(
         string name,
-        EggfinityStoneType type)
+        EggfinityStoneType type,
+        decimal? increase)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
 
         Name = name;
         Type = type;
+        Increase = increase;
     }
 }
