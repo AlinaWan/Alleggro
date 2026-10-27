@@ -1,4 +1,5 @@
-﻿using Alleggro.Boosts;
+﻿using System.Numerics;
+using Alleggro.Boosts;
 
 namespace Alleggro.Items;
 
@@ -13,7 +14,7 @@ public static class Boosts
         multiplier: 3,
         duration: TimeSpan.FromMinutes(20),
         cost: 50,
-        soulEggsRequirement: 0,
+        soulEggsRequirement: (BigInteger)0,
         boostTokensCost: 0
     );
 
@@ -25,7 +26,7 @@ public static class Boosts
         multiplier: 3,
         duration: TimeSpan.FromMinutes(240),
         cost: null,
-        soulEggsRequirement: 0,
+        soulEggsRequirement: (BigInteger)0,
         boostTokensCost: 1
     );
 
@@ -37,7 +38,7 @@ public static class Boosts
         multiplier: 10,
         duration: TimeSpan.FromMinutes(15),
         cost: 150,
-        soulEggsRequirement: 1,
+        soulEggsRequirement: (BigInteger)1,
         boostTokensCost: 1
     );
 
@@ -49,7 +50,7 @@ public static class Boosts
         multiplier: 10,
         duration: TimeSpan.FromMinutes(180),
         cost: 750,
-        soulEggsRequirement: 1,
+        soulEggsRequirement: (BigInteger)1,
         boostTokensCost: 1
     );
 
@@ -61,7 +62,7 @@ public static class Boosts
         multiplier: 50,
         duration: TimeSpan.FromMinutes(10),
         cost: 2500,
-        soulEggsRequirement: 100,
+        soulEggsRequirement: (BigInteger)100,
         boostTokensCost: 2
     );
 
@@ -73,7 +74,7 @@ public static class Boosts
         multiplier: 50,
         duration: TimeSpan.FromMinutes(120),
         cost: 7500,
-        soulEggsRequirement: 100,
+        soulEggsRequirement: (BigInteger)100,
         boostTokensCost: 3
     );
 
@@ -86,7 +87,7 @@ public static class Boosts
         multiplier: 10,
         duration: TimeSpan.FromMinutes(10),
         cost: 50,
-        soulEggsRequirement: 0,
+        soulEggsRequirement: (BigInteger)0,
         boostTokensCost: 0
     );
 
@@ -98,7 +99,7 @@ public static class Boosts
         multiplier: 10,
         duration: TimeSpan.FromMinutes(240),
         cost: 500,
-        soulEggsRequirement: 0,
+        soulEggsRequirement: (BigInteger)0,
         boostTokensCost: 0
     );
 
@@ -110,7 +111,7 @@ public static class Boosts
         multiplier: 100,
         duration: TimeSpan.FromMinutes(10),
         cost: 1000,
-        soulEggsRequirement: 0,
+        soulEggsRequirement: (BigInteger)0,
         boostTokensCost: 2
     );
 
@@ -122,7 +123,7 @@ public static class Boosts
         multiplier: 100,
         duration: TimeSpan.FromMinutes(120),
         cost: 5000,
-        soulEggsRequirement: 100,
+        soulEggsRequirement: (BigInteger)100,
         boostTokensCost: 2
     );
 
@@ -134,7 +135,7 @@ public static class Boosts
         multiplier: 1000,
         duration: TimeSpan.FromMinutes(10),
         cost: 12000,
-        soulEggsRequirement: 2500,
+        soulEggsRequirement: (BigInteger)2500,
         boostTokensCost: 4
     );
 
@@ -146,7 +147,7 @@ public static class Boosts
         multiplier: 1000,
         duration: TimeSpan.FromMinutes(60),
         cost: 25000,
-        soulEggsRequirement: 100000,
+        soulEggsRequirement: (BigInteger)100000,
         boostTokensCost: 4
     );
 
@@ -159,7 +160,7 @@ public static class Boosts
         multiplier: 2,
         duration: TimeSpan.FromMinutes(30),
         cost: 1000,
-        soulEggsRequirement: 1000,
+        soulEggsRequirement: (BigInteger)1000,
         boostTokensCost: 1
     );
 
@@ -171,7 +172,7 @@ public static class Boosts
         multiplier: 10,
         duration: TimeSpan.FromMinutes(10),
         cost: 8000,
-        soulEggsRequirement: 100000,
+        soulEggsRequirement: (BigInteger)100000,
         boostTokensCost: 4
     );
 
@@ -183,7 +184,7 @@ public static class Boosts
         multiplier: 5,
         duration: TimeSpan.FromMinutes(60),
         cost: 15000,
-        soulEggsRequirement: 500000,
+        soulEggsRequirement: (BigInteger)500000,
         boostTokensCost: 3
     );
 
@@ -195,7 +196,7 @@ public static class Boosts
         multiplier: 50,
         duration: TimeSpan.FromMinutes(10),
         cost: 50000,
-        soulEggsRequirement: 100000000,
+        soulEggsRequirement: (BigInteger)100000000,
         boostTokensCost: 8
     );
 
@@ -208,7 +209,7 @@ public static class Boosts
         multiplier: 5,
         duration: TimeSpan.FromMinutes(30),
         cost: 200,
-        soulEggsRequirement: 10000,
+        soulEggsRequirement: (BigInteger)10000,
         boostTokensCost: null
     );
 
@@ -220,7 +221,7 @@ public static class Boosts
         multiplier: 50,
         duration: TimeSpan.FromMinutes(20),
         cost: 1000,
-        soulEggsRequirement: 1000000,
+        soulEggsRequirement: (BigInteger)1000000,
         boostTokensCost: null
     );
 
@@ -232,7 +233,7 @@ public static class Boosts
         multiplier: 50,
         duration: TimeSpan.FromMinutes(10),
         cost: 10000,
-        soulEggsRequirement: 10000000000,
+        soulEggsRequirement: (BigInteger)10000000000,
         boostTokensCost: null
     );
 
@@ -244,7 +245,7 @@ public static class Boosts
         name: "Subsidy Application",
         increase: 0.1m,
         cost: 200,
-        soulEggsRequirement: 0,
+        soulEggsRequirement: (BigInteger)0,
         boostTokensCost: 1
     );
 
@@ -255,7 +256,7 @@ public static class Boosts
         name: "Blank Check",
         increase: 1.0m,
         cost: 750,
-        soulEggsRequirement: 100000,
+        soulEggsRequirement: (BigInteger)100000,
         boostTokensCost: 1
     );
 
@@ -266,7 +267,7 @@ public static class Boosts
         name: "Money Printer",
         increase: 5.0m,
         cost: 2500,
-        soulEggsRequirement: 5000000,
+        soulEggsRequirement: (BigInteger)5000000,
         boostTokensCost: 2
     );
 
@@ -278,7 +279,7 @@ public static class Boosts
         name: "Soul Mirror",
         duration: TimeSpan.FromMinutes(10),
         cost: 100,
-        soulEggsRequirement: 1000,
+        soulEggsRequirement: (BigInteger)1000,
         boostTokensCost: 1
     );
 
@@ -289,7 +290,7 @@ public static class Boosts
         name: "Epic Soul Mirror",
         duration: TimeSpan.FromMinutes(60),
         cost: 500,
-        soulEggsRequirement: 1000,
+        soulEggsRequirement: (BigInteger)1000,
         boostTokensCost: 2
     );
 
@@ -300,7 +301,7 @@ public static class Boosts
         name: "Legendary Soul Mirror",
         duration: TimeSpan.FromMinutes(1440),
         cost: 2000,
-        soulEggsRequirement: 10000,
+        soulEggsRequirement: (BigInteger)10000,
         boostTokensCost: 3
     );
 
